@@ -45,6 +45,22 @@
 #define _swap_uint16_t(a, b) { uint16_t t = a; a = b; b = t; }
 #endif
 
+#if (PLATFORM_ID == 32)
+// Constructor for single matrix w/hardware SPI/SPI1:
+Adafruit_DotStarMatrix::Adafruit_DotStarMatrix(int w, int h,
+  SPIClass& spi, uint8_t matrixType, uint8_t ledType) :
+  Adafruit_GFX(w, h),
+  Adafruit_DotStar(w * h, spi, ledType), type(matrixType),
+  matrixWidth(w), matrixHeight(h), tilesX(0), tilesY(0), remapFn(NULL) { }
+
+// Constructor for tiled matrices w/hardware SPI/SPI1:
+Adafruit_DotStarMatrix::Adafruit_DotStarMatrix(uint8_t mW, uint8_t mH,
+  uint8_t tX, uint8_t tY, SPIClass& spi, uint8_t matrixType, uint8_t ledType) :
+  Adafruit_GFX(mW * tX, mH * tY), Adafruit_DotStar(mW * mH * tX * tY, spi,
+  ledType), type(matrixType), matrixWidth(mW), matrixHeight(mH), tilesX(tX),
+  tilesY(tY), remapFn(NULL) { }
+
+#else // Argon, Boron, etc..
 // Constructor for single matrix w/hardware SPI:
 Adafruit_DotStarMatrix::Adafruit_DotStarMatrix(int w, int h,
   uint8_t matrixType, uint8_t ledType) : Adafruit_GFX(w, h),
@@ -71,6 +87,7 @@ Adafruit_DotStarMatrix::Adafruit_DotStarMatrix(uint8_t mW, uint8_t mH,
   uint8_t ledType) : Adafruit_GFX(mW * tX, mH * tY),
   Adafruit_DotStar(mW * mH * tX * tY, d, c, ledType), type(matrixType),
   matrixWidth(mW), matrixHeight(mH), tilesX(tX), tilesY(tY), remapFn(NULL) { }
+#endif // #if (PLATFORM_ID == 32)
 
 // Expand 16-bit input color (Adafruit_GFX colorspace) to 24-bit (DotStar)
 // (w/gamma adjustment)

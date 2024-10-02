@@ -1,40 +1,35 @@
 // Adafruit_DotStarMatrix example for single DotStar LED matrix.
 // Scrolls 'Adafruit' across the matrix.
 
-#include <SPI.h>
+#include "Particle.h"
+
 #include <Adafruit_GFX.h>
 #include <Adafruit_DotStarMatrix.h>
 #include <Adafruit_DotStar.h>
 #include <TomThumb.h>
 
-#if defined(PARTICLE)
-  #define DATAPIN    D6
-  #define CLOCKPIN   D8
-#elif defined(ESP8266)
-  #define DATAPIN    13
-  #define CLOCKPIN   14
-#elif defined(__AVR_ATmega328P__)
-  #define DATAPIN    2
-  #define CLOCKPIN   4
-#elif defined(ARDUINO_FEATHER52832)
-  #define DATAPIN    7
-  #define CLOCKPIN   16
-#elif defined(TEENSYDUINO)
-  #define DATAPIN    9
-  #define CLOCKPIN   5
-#elif defined(ARDUINO_ARCH_WICED)
-  #define DATAPIN    PA4
-  #define CLOCKPIN   PB5
-#elif defined(ESP32)
-  #define DATAPIN    27
-  #define CLOCKPIN   13
-#else // // 32u4, M0, M4, nrf52840 and 328p
-  #define DATAPIN    11
-  #define CLOCKPIN   13
-#endif
-
 #define SHIFTDELAY 100
 #define BRIGHTNESS 20
+
+#if (PLATFORM_ID == 32) // Photon2, P2
+
+#define SPI_INTERFACE SPI
+// #define SPI_INTERFACE SPI1
+
+Adafruit_DotStarMatrix matrix = Adafruit_DotStarMatrix(
+                                  12, 6, SPI_INTERFACE,
+                                  DS_MATRIX_BOTTOM     + DS_MATRIX_LEFT +
+                                  DS_MATRIX_ROWS + DS_MATRIX_PROGRESSIVE,
+                                  DOTSTAR_BGR);
+#else // Argon, Boron, etc..
+
+// SPI Pins
+// #define DATAPIN    MOSI
+// #define CLOCKPIN   SCK
+
+// SPI1 Pins
+#define DATAPIN    D2
+#define CLOCKPIN   D4
 
 // MATRIX DECLARATION:
 // Parameter 1 = width of DotStar matrix
@@ -60,6 +55,8 @@ Adafruit_DotStarMatrix matrix = Adafruit_DotStarMatrix(
                                   DS_MATRIX_ROWS + DS_MATRIX_PROGRESSIVE,
                                   DOTSTAR_BGR);
 
+#endif // #if (PLATFORM_ID == 32)
+
 const uint16_t primaryColors[] = {
   matrix.Color(255, 0, 0), matrix.Color(0, 255, 0), matrix.Color(0, 0, 255)
 };
@@ -79,12 +76,7 @@ const uint16_t adaColors[] = {
 char adafruit[] = "ADAFRUIT!";
 
 void setup() {
-  Serial.begin(115200);
- 
-  // uncomment to have wait
-  //while (!Serial) delay(500); 
 
-  Serial.println("\nDotstar Matrix Wing");
   matrix.begin();
   matrix.setFont(&TomThumb);
   matrix.setTextWrap(false);
