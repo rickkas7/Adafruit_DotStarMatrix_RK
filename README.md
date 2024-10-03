@@ -3,7 +3,7 @@ Adafruit_DotStarMatrix.
 
 ## Particle Port
 
-This is a Particle Port of the Adafruit_DotStarMatrix for Particle devices. It can be used with 2nd (Photon/P1/Electron/E Series) and 3rd-generation devices (Argon, Boron, Xenon).
+This is a Particle Port of the Adafruit_DotStarMatrix for Particle devices. It can be used with 2nd (Photon/P1/Electron/E Series), (3rd-generation devices (Argon, Boron, Xenon), and 4th-generation devices (Photon2/P2)
 
 ## Original README
 

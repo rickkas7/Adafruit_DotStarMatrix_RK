@@ -68,6 +68,17 @@ class Adafruit_DotStarMatrix : public Adafruit_GFX, public Adafruit_DotStar {
 
  public:
 
+#if (PLATFORM_ID == 32)
+  // Constructor for single matrix w/hardware SPI/SPI1:
+  Adafruit_DotStarMatrix(int w, int h,
+    SPIClass& spi, uint8_t matrixType, uint8_t ledType);
+
+  // Constructor for tiled matrices w/hardware SPI/SPI1:
+  Adafruit_DotStarMatrix(
+    uint8_t matrixW, uint8_t matrixH, uint8_t tX, uint8_t tY,
+    SPIClass& spi, uint8_t matrixType, uint8_t ledType);
+
+#else // Argon, Boron, etc..
   // Constructor for single matrix w/hardware SPI:
   Adafruit_DotStarMatrix(int w, int h,
     uint8_t matrixType, uint8_t ledType);
@@ -85,6 +96,7 @@ class Adafruit_DotStarMatrix : public Adafruit_GFX, public Adafruit_DotStar {
   Adafruit_DotStarMatrix(uint8_t matrixW, uint8_t matrixH,
     uint8_t tX, uint8_t tY, uint8_t d, uint8_t c,
     uint8_t matrixType, uint8_t ledType);
+#endif // #if (PLATFORM_ID == 32)
 
   void
     drawPixel(int16_t x, int16_t y, uint16_t color),
