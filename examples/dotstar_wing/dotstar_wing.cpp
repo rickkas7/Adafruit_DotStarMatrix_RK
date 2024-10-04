@@ -28,13 +28,13 @@ Adafruit_DotStarMatrix matrix = Adafruit_DotStarMatrix(
 // #define CLOCKPIN   SCK
 
 // SPI1 Pins
-#define DATAPIN    D2
-#define CLOCKPIN   D4
+// #define DATAPIN    D2
+// #define CLOCKPIN   D4
 
 // Adafruit Dotstar FeatherWing pins
 // https://www.adafruit.com/product/3449
-// #define DATAPIN    D6
-// #define CLOCKPIN   D8
+#define DATAPIN    D6
+#define CLOCKPIN   D8
 
 // MATRIX DECLARATION:
 // Parameter 1 = width of DotStar matrix
